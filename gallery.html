@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JP Nagar Run Club | Gallery</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <div class="container nav-container">
+            <div class="logo">
+                <span class="logo-icon">🏃‍♂️</span>
+                <span class="logo-text">JP Nagar Run Club</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="gallery.html" class="active">Gallery</a></li>
+                <li><a href="register.html">Register</a></li>
+            </ul>
+            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <section class="gallery-page">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-tag">Memories</span>
+                <h2>Our Run Gallery</h2>
+                <p>Every Sunday morning, we create magic. Here are some of our favorite moments.</p>
+            </div>
+
+            <div class="gallery-masonry" id="dynamicGallery">
+                <div style="text-align: center; padding: 40px; grid-column: 1/-1;">
+                    <p>📸 Loading gallery...</p>
+                </div>
+            </div>
+
+            <div class="add-comment" data-aos="fade-up">
+                <h3><i class="fas fa-comment-dots"></i> Share Your Memory</h3>
+                <div class="comment-input-group">
+                    <input type="text" id="commentName" placeholder="Your name">
+                    <input type="text" id="commentText" placeholder="Your favorite run memory...">
+                    <button id="addCommentBtn"><i class="fas fa-paper-plane"></i> Post Comment</button>
+                </div>
+                <div id="userComments" class="user-comments"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <div class="logo"><span class="logo-icon">🏃‍♂️</span><span class="logo-text">JP Nagar Run Club</span></div>
+                <p>Bangalore's friendliest running community.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <a href="index.html">Home</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="register.html">Register</a>
+            </div>
+            <div class="footer-contact">
+                <h4>Meet Us</h4>
+                <p><i class="fas fa-map-pin"></i> Puttenahalli Lake, JP Nagar</p>
+                <p><i class="fas fa-clock"></i> Every Sunday, 6:00 AM</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 JP Nagar Run Club | Free for everyone</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        function loadGalleryImages() {
+            const images = JSON.parse(localStorage.getItem('galleryImages') || '[]');
+            const container = document.getElementById('dynamicGallery');
+            
+            if (images.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; grid-column: 1/-1;">
+                        <p>📸 No photos yet. Check back after our next run!</p>
+                        <p style="color:#aaa; font-size:0.8rem;">(Admin can add photos from the admin panel)</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = images.map((img, idx) => `
+                <div class="gallery-card" data-aos="fade-up" data-aos-delay="${(idx % 8) * 50}">
+                    <div class="gallery-card-img">
+                        <img src="${img.url}" alt="Run photo" loading="lazy" style="width:100%; border-radius:24px;">
+                    </div>
+                    ${img.comment ? `
+                        <div class="floating-comment comment-${(idx % 8) + 1}">
+                            <div class="comment-bubble">
+                                <i class="fas fa-quote-left"></i> ${escapeHtml(img.comment)}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+
+        function loadComments() {
+            const comments = JSON.parse(localStorage.getItem('runClubComments') || '[]');
+            const container = document.getElementById('userComments');
+            if (container) {
+                container.innerHTML = comments.map(c => `
+                    <div class="user-comment">
+                        <strong>${escapeHtml(c.name)}</strong>
+                        <p>${escapeHtml(c.comment)}</p>
+                        <small style="color:#666">${new Date(c.timestamp).toLocaleString()}</small>
+                    </div>
+                `).join('');
+            }
+        }
+
+        const addCommentBtn = document.getElementById('addCommentBtn');
+        if (addCommentBtn) {
+            addCommentBtn.addEventListener('click', () => {
+                const name = document.getElementById('commentName')?.value.trim();
+                const comment = document.getElementById('commentText')?.value.trim();
+                
+                if (!name || !comment) {
+                    alert('Please enter both name and comment!');
+                    return;
+                }
+                
+                const comments = JSON.parse(localStorage.getItem('runClubComments') || '[]');
+                comments.unshift({
+                    name: name,
+                    comment: comment,
+                    timestamp: new Date().toISOString()
+                });
+                localStorage.setItem('runClubComments', JSON.stringify(comments));
+                
+                document.getElementById('commentName').value = '';
+                document.getElementById('commentText').value = '';
+                loadComments();
+            });
+        }
+
+        loadGalleryImages();
+        loadComments();
+
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        if (mobileBtn) {
+            mobileBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+</html>

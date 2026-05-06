@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JP Nagar Run Club | Register</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <div class="container nav-container">
+            <div class="logo">
+                <span class="logo-icon">🏃‍♂️</span>
+                <span class="logo-text">JP Nagar Run Club</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="register.html" class="active">Register</a></li>
+            </ul>
+            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <section class="register-page">
+        <div class="container">
+            <div class="register-grid">
+                <div class="register-info" data-aos="fade-right">
+                    <div class="info-card">
+                        <div class="next-run-badge">
+                            <i class="fas fa-calendar-check"></i> Next Run
+                        </div>
+                        <h2>Sunday, March 16th</h2>
+                        <div class="run-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-clock"></i>
+                                <span>6:00 AM Sharp</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Puttenahalli Lake Entrance<br>JP Nagar 7th Phase</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-route"></i>
+                                <span>5K | 10K (Both options)</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-hand-peace"></i>
+                                <span>Free entry | All paces welcome</span>
+                            </div>
+                        </div>
+                        
+                        <div class="schedule">
+                            <h3><i class="fas fa-clock"></i> Schedule</h3>
+                            <ul id="scheduleList">
+                                <li>5:45 AM - Assembly & Warm-up</li>
+                                <li>6:00 AM - 5K Run Starts</li>
+                                <li>6:15 AM - 10K Run Starts</li>
+                                <li>7:30 AM - Post-run Chai</li>
+                                <li>8:00 AM - Photos & Wrap-up</li>
+                            </ul>
+                        </div>
+
+                        <div class="what-to-bring">
+                            <h3><i class="fas fa-shopping-bag"></i> What to Bring</h3>
+                            <ul id="bringList">
+                                <li>Comfortable running clothes</li>
+                                <li>Your own water bottle</li>
+                                <li>Positive energy!</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="register-form-container" data-aos="fade-left">
+                    <div class="form-card">
+                        <h2><i class="fas fa-clipboard-list"></i> Register for the Run</h2>
+                        <p>Fill this quick form to let us know you're coming. We'll save you a spot (and chai ☕)!</p>
+
+                        <form id="registrationForm">
+                            <div class="form-group">
+                                <label><i class="fas fa-user"></i> Full Name *</label>
+                                <input type="text" id="fullName" required placeholder="Enter your full name">
+                            </div>
+
+                            <div class="form-group">
+                                <label><i class="fas fa-phone"></i> Phone Number *</label>
+                                <input type="tel" id="phone" required placeholder="10-digit mobile number">
+                            </div>
+
+                            <div class="form-group">
+                                <label><i class="fas fa-envelope"></i> Email (optional)</label>
+                                <input type="email" id="email" placeholder="your@email.com">
+                            </div>
+
+                            <div class="form-group">
+                                <label><i class="fas fa-flag-checkered"></i> Which distance? *</label>
+                                <select id="distance" required>
+                                    <option value="">Select distance</option>
+                                    <option value="5K">5K (Beginner friendly)</option>
+                                    <option value="10K">10K (For experienced runners)</option>
+                                    <option value="Not sure">Not sure yet / Will decide</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label><i class="fas fa-tachometer-alt"></i> Expected pace (per km)</label>
+                                <select id="pace">
+                                    <option value="">Select pace (optional)</option>
+                                    <option value="5-6 min">5-6 min/km (Fast)</option>
+                                    <option value="6-7 min">6-7 min/km (Moderate)</option>
+                                    <option value="7-8 min">7-8 min/km (Casual)</option>
+                                    <option value="8-9 min">8-9 min/km (Relaxed)</option>
+                                    <option value="9+ min">9+ min/km / Walking</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label><i class="fas fa-comment"></i> Anything we should know?</label>
+                                <textarea id="notes" rows="3" placeholder="Injuries, questions, or just say hi!"></textarea>
+                            </div>
+
+                            <div id="customQuestionsContainer"></div>
+
+                            <div class="payment-section">
+                                <h3><i class="fas fa-qrcode"></i> Support the Club (Optional)</h3>
+                                <p class="payment-note">Membership is free! But if you'd like to contribute towards post-run chai & hydration, use the UPI ID below.</p>
+                                
+                                <div class="paytm-qr" style="text-align: center; background: #1a1a1a; padding: 20px; border-radius: 16px;">
+                                    <i class="fab fa-paytm" style="font-size: 3rem; color: #00BAF2;"></i>
+                                    <p style="margin: 12px 0 8px; font-weight: bold;">Send contribution via Paytm / Google Pay</p>
+                                    <p style="font-size: 1.3rem; background: #0A0A0A; padding: 12px; border-radius: 12px; font-family: monospace; display: inline-block;">
+                                        9019872742@ptsbi
+                                    </p>
+                                    <p style="margin-top: 12px; font-size: 0.8rem; color: #aaa;">UPI ID: Copy and pay any amount you like ❤️</p>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn-submit">
+                                <i class="fas fa-running"></i> Complete Registration →
+                            </button>
+                            <p class="form-footnote">By registering, you agree to run at your own pace and have fun! No spams, just running.</p>
+                        </form>
+
+                        <div id="registrationSuccess" class="success-message" style="display: none;">
+                            <i class="fas fa-check-circle"></i>
+                            <h3>Registration Successful! 🎉</h3>
+                            <p>See you on Sunday at 6 AM! We'll send a reminder via WhatsApp.</p>
+                            
+                            <div style="background: rgba(255,107,107,0.2); padding: 16px; border-radius: 16px; margin-top: 16px;">
+                                <p><i class="fas fa-rupee-sign"></i> <strong>Payment for Chai & Hydration (Optional):</strong></p>
+                                <p>UPI ID: <strong style="font-size:1.2rem;">9019872742@ptsbi</strong></p>
+                                <p>After payment, WhatsApp your transaction ID to <strong>+91 9876543210</strong> for verification.</p>
+                            </div>
+                            
+                            <button onclick="closeSuccess()" class="btn-close-success">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <div class="logo"><span class="logo-icon">🏃‍♂️</span><span class="logo-text">JP Nagar Run Club</span></div>
+                <p>Bangalore's friendliest running community.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <a href="index.html">Home</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="register.html">Register</a>
+            </div>
+            <div class="footer-contact">
+                <h4>Meet Us</h4>
+                <p><i class="fas fa-map-pin"></i> Puttenahalli Lake, JP Nagar</p>
+                <p><i class="fas fa-clock"></i> Every Sunday, 6:00 AM</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 JP Nagar Run Club | Free for everyone</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        function loadScheduleData() {
+            const schedule = localStorage.getItem('scheduleItems');
+            if (schedule) {
+                const items = schedule.split('\n').filter(s => s.trim());
+                if (items.length > 0) {
+                    document.getElementById('scheduleList').innerHTML = items.map(i => `<li>${escapeHtml(i)}</li>`).join('');
+                }
+            }
+            
+            const bring = localStorage.getItem('bringItems');
+            if (bring) {
+                const items = bring.split('\n').filter(s => s.trim());
+                if (items.length > 0) {
+                    document.getElementById('bringList').innerHTML = items.map(i => `<li>${escapeHtml(i)}</li>`).join('');
+                }
+            }
+        }
+
+        function loadCustomQuestions() {
+            const questions = localStorage.getItem('customQuestions') || "";
+            const container = document.getElementById('customQuestionsContainer');
+            if (questions && container) {
+                const questionList = questions.split('\n').filter(q => q.trim());
+                if (questionList.length > 0) {
+                    container.innerHTML = '<div style="margin: 20px 0 10px;"><hr><h3 style="color:#4ECDC4;">Additional Questions</h3></div>' + 
+                        questionList.map((q, idx) => `
+                            <div class="form-group">
+                                <label><i class="fas fa-question-circle"></i> ${escapeHtml(q)}</label>
+                                <textarea id="custom_q_${idx}" rows="2" placeholder="Your answer..."></textarea>
+                            </div>
+                        `).join('');
+                }
+            }
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+
+        const regForm = document.getElementById('registrationForm');
+        if (regForm) {
+            regForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const customAnswers = {};
+                const questionList = (localStorage.getItem('customQuestions') || "").split('\n').filter(q => q.trim());
+                questionList.forEach((q, idx) => {
+                    customAnswers[q] = document.getElementById(`custom_q_${idx}`)?.value || '';
+                });
+                
+                const formData = {
+                    name: document.getElementById('fullName')?.value,
+                    phone: document.getElementById('phone')?.value,
+                    email: document.getElementById('email')?.value,
+                    distance: document.getElementById('distance')?.value,
+                    pace: document.getElementById('pace')?.value,
+                    notes: document.getElementById('notes')?.value,
+                    customAnswers: customAnswers,
+                    timestamp: new Date().toISOString(),
+                    paid: false
+                };
+                
+                let registrations = JSON.parse(localStorage.getItem('runClubRegistrations') || '[]');
+                registrations.push(formData);
+                localStorage.setItem('runClubRegistrations', JSON.stringify(registrations));
+                
+                regForm.style.display = 'none';
+                document.getElementById('registrationSuccess').style.display = 'block';
+            });
+        }
+
+        function closeSuccess() {
+            document.getElementById('registrationSuccess').style.display = 'none';
+            regForm.style.display = 'block';
+            regForm.reset();
+        }
+
+        loadScheduleData();
+        loadCustomQuestions();
+
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        if (mobileBtn) {
+            mobileBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+</html>

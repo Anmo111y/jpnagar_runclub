@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - JP Nagar Run Club</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0A0A0A;
+            color: #EDEDED;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #4ECDC4;
+        }
+        .box {
+            background: #1a1a1a;
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid #333;
+        }
+        .box h2 {
+            color: #4ECDC4;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: #2a2a2a;
+            border: 1px solid #444;
+            border-radius: 12px;
+            color: white;
+            font-family: inherit;
+        }
+        button {
+            background: #4ECDC4;
+            color: black;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+        .btn-danger {
+            background: #FF6B6B;
+            color: white;
+        }
+        .hidden {
+            display: none;
+        }
+        .success {
+            background: #4ECDC4;
+            color: black;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .image-preview {
+            display: inline-block;
+            margin: 10px;
+            text-align: center;
+        }
+        .image-preview img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .reg-item {
+            background: #2a2a2a;
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+        .note {
+            color: #888;
+            font-size: 0.8rem;
+            margin-top: 10px;
+        }
+        hr {
+            border-color: #333;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+
+<h1><i class="fas fa-lock"></i> JP Nagar Run Club - Admin Panel</h1>
+
+<div id="loginBox" class="box">
+    <h2>Admin Login</h2>
+    <input type="password" id="password" placeholder="Enter password">
+    <button onclick="login()">Login</button>
+    <p class="note">Password: runclub2025</p>
+</div>
+
+<div id="adminPanel" class="hidden">
+
+    <div class="box">
+        <h2><i class="fas fa-calendar"></i> 1. Set Next Run Date & Time</h2>
+        <p class="note">This updates the countdown timer on the homepage</p>
+        <input type="datetime-local" id="nextRunDate">
+        <button onclick="saveNextRun()">Save Date</button>
+        <p id="currentRunDisplay" style="margin-top: 10px; color: #4ECDC4;"></p>
+    </div>
+
+    <div class="box">
+        <h2><i class="fas fa-images"></i> 2. Add Gallery Images</h2>
+        <p class="note">Upload photos to <a href="https://postimages.org/" target="_blank" style="color:#4ECDC4;">PostImages.org</a> (free), then paste the "Direct Link" below</p>
+        <input type="text" id="imageUrl" placeholder="Paste image direct URL here">
+        <input type="text" id="imageCaption" placeholder="Caption / comment for this photo">
+        <button onclick="addImage()">Add Image</button>
+        <div id="imageList" style="margin-top: 20px;"></div>
+    </div>
+
+    <div class="box">
+        <h2><i class="fas fa-list"></i> 3. Edit Run Schedule</h2>
+        <p class="note">One item per line (appears on registration page)</p>
+        <textarea id="schedule" rows="4" placeholder="5:45 AM - Assembly & Warm-up&#10;6:00 AM - 5K Run Starts&#10;6:15 AM - 10K Run Starts&#10;7:30 AM - Post-run Chai&#10;8:00 AM - Photos & Wrap-up"></textarea>
+        <button onclick="saveSchedule()">Save Schedule</button>
+    </div>
+
+    <div class="box">
+        <h2><i class="fas fa-shopping-bag"></i> 4. Edit "What to Bring"</h2>
+        <p class="note">One item per line</p>
+        <textarea id="bring" rows="3" placeholder="Comfortable running clothes&#10;Your own water bottle&#10;Positive energy!"></textarea>
+        <button onclick="saveBring()">Save List</button>
+    </div>
+
+    <div class="box">
+        <h2><i class="fas fa-question-circle"></i> 5. Custom Registration Questions</h2>
+        <p class="note">One question per line (appears on registration form)</p>
+        <textarea id="questions" rows="4" placeholder="What's your running goal for this year?&#10;Any injuries we should know about?&#10;How did you hear about us?"></textarea>
+        <button onclick="saveQuestions()">Save Questions</button>
+    </div>
+
+    <div class="box">
+        <h2><i class="fas fa-users"></i> 6. View Registrations</h2>
+        <button onclick="downloadCSV()">Download as CSV</button>
+        <button onclick="clearAllRegistrations()" class="btn-danger">Clear All Registrations</button>
+        <div id="regsList" style="margin-top: 20px;"></div>
+    </div>
+
+    <div class="box">
+        <h2><i class="fas fa-rupee-sign"></i> 7. Verify Payments</h2>
+        <p class="note">Ask runner for their phone number, then mark them as paid</p>
+        <input type="text" id="paidPhone" placeholder="Runner's phone number">
+        <input type="text" id="transactionId" placeholder="Transaction ID (optional)">
+        <button onclick="markPaid()">Mark as Paid</button>
+        <hr>
+        <h3>Paid Runners:</h3>
+        <div id="paidList"></div>
+    </div>
+
+</div>
+
+<script>
+    // Login
+    function login() {
+        var pwd = document.getElementById('password').value;
+        if (pwd === 'runclub2025') {
+            document.getElementById('loginBox').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+            loadAllData();
+        } else {
+            alert('Wrong password!');
+        }
+    }
+
+    function loadAllData() {
+        loadNextRun();
+        loadImages();
+        loadSchedule();
+        loadBring();
+        loadQuestions();
+        loadRegistrations();
+        loadPaidList();
+    }
+
+    // Next Run
+    function loadNextRun() {
+        var saved = localStorage.getItem('nextRunDateTime');
+        if (saved) {
+            document.getElementById('nextRunDate').value = saved;
+            document.getElementById('currentRunDisplay').innerHTML = 'Current: ' + new Date(saved).toLocaleString();
+        }
+    }
+    function saveNextRun() {
+        var date = document.getElementById('nextRunDate').value;
+        if (date) {
+            localStorage.setItem('nextRunDateTime', date);
+            alert('Saved! Countdown timer will update on homepage.');
+            loadNextRun();
+        } else {
+            alert('Please select a date and time');
+        }
+    }
+
+    // Images
+    function loadImages() {
+        var images = JSON.parse(localStorage.getItem('galleryImages') || '[]');
+        var container = document.getElementById('imageList');
+        if (images.length === 0) {
+            container.innerHTML = '<p class="note">No images yet. Add your first photo above.</p>';
+            return;
+        }
+        container.innerHTML = '';
+        for (var i = 0; i < images.length; i++) {
+            container.innerHTML += '<div class="image-preview">' +
+                '<img src="' + images[i].url + '"><br>' +
+                '<small>' + (images[i].comment || '') + '</small><br>' +
+                '<button onclick="removeImage(' + i + ')" class="btn-danger" style="padding:5px 10px; font-size:12px;">Delete</button>' +
+                '</div>';
+        }
+    }
+    function addImage() {
+        var url = document.getElementById('imageUrl').value;
+        var caption = document.getElementById('imageCaption').value;
+        if (!url) {
+            alert('Please paste an image URL');
+            return;
+        }
+        var images = JSON.parse(localStorage.getItem('galleryImages') || '[]');
+        images.push({ url: url, comment: caption, timestamp: new Date().toISOString() });
+        localStorage.setItem('galleryImages', JSON.stringify(images));
+        document.getElementById('imageUrl').value = '';
+        document.getElementById('imageCaption').value = '';
+        loadImages();
+        alert('Image added to gallery!');
+    }
+    function removeImage(index) {
+        var images = JSON.parse(localStorage.getItem('galleryImages') || '[]');
+        images.splice(index, 1);
+        localStorage.setItem('galleryImages', JSON.stringify(images));
+        loadImages();
+        alert('Image removed');
+    }
+
+    // Schedule
+    function loadSchedule() {
+        var saved = localStorage.getItem('scheduleItems');
+        if (saved) document.getElementById('schedule').value = saved;
+    }
+    function saveSchedule() {
+        localStorage.setItem('scheduleItems', document.getElementById('schedule').value);
+        alert('Schedule saved!');
+    }
+
+    // Bring
+    function loadBring() {
+        var saved = localStorage.getItem('bringItems');
+        if (saved) document.getElementById('bring').value = saved;
+    }
+    function saveBring() {
+        localStorage.setItem('bringItems', document.getElementById('bring').value);
+        alert('What to bring saved!');
+    }
+
+    // Questions
+    function loadQuestions() {
+        var saved = localStorage.getItem('customQuestions');
+        if (saved) document.getElementById('questions').value = saved;
+    }
+    function saveQuestions() {
+        localStorage.setItem('customQuestions', document.getElementById('questions').value);
+        alert('Custom questions saved! They will appear on registration form.');
+    }
+
+    // Registrations
+    function loadRegistrations() {
+        var regs = JSON.parse(localStorage.getItem('runClubRegistrations') || '[]');
+        var container = document.getElementById('regsList');
+        if (regs.length === 0) {
+            container.innerHTML = '<p class="note">No registrations yet.</p>';
+            return;
+        }
+        container.innerHTML = '';
+        for (var i = 0; i < regs.length; i++) {
+            var r = regs[i];
+            container.innerHTML += '<div class="reg-item">' +
+                '<strong>' + escapeHtml(r.name) + '</strong> | 📞 ' + escapeHtml(r.phone) + '<br>' +
+                'Distance: ' + escapeHtml(r.distance || 'N/A') + '<br>' +
+                'Registered: ' + new Date(r.timestamp).toLocaleString() + '<br>' +
+                '<span style="color: ' + (r.paid ? '#4ECDC4' : '#FF6B6B') + '">' + (r.paid ? '✅ PAID' : '⏳ Payment Pending') + '</span>' +
+                '</div>';
+        }
+    }
+    function downloadCSV() {
+        var regs = JSON.parse(localStorage.getItem('runClubRegistrations') || '[]');
+        var csv = 'Name,Phone,Email,Distance,Pace,Notes,Timestamp,Paid\n';
+        for (var i = 0; i < regs.length; i++) {
+            var r = regs[i];
+            csv += '"' + (r.name || '') + '","' + (r.phone || '') + '","' + (r.email || '') + '","' + (r.distance || '') + '","' + (r.pace || '') + '","' + (r.notes || '') + '","' + r.timestamp + '","' + (r.paid ? 'Yes' : 'No') + '"\n';
+        }
+        var blob = new Blob([csv], { type: 'text/csv' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'registrations_' + new Date().toISOString().slice(0,10) + '.csv';
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+    function clearAllRegistrations() {
+        if (confirm('⚠️ Delete ALL registrations? This cannot be undone.')) {
+            localStorage.setItem('runClubRegistrations', '[]');
+            loadRegistrations();
+            alert('All registrations cleared');
+        }
+    }
+
+    // Payments
+    function loadPaidList() {
+        var regs = JSON.parse(localStorage.getItem('runClubRegistrations') || '[]');
+        var paid = regs.filter(function(r) { return r.paid; });
+        var container = document.getElementById('paidList');
+        if (paid.length === 0) {
+            container.innerHTML = '<p class="note">No paid runners yet</p>';
+            return;
+        }
+        container.innerHTML = '';
+        for (var i = 0; i < paid.length; i++) {
+            container.innerHTML += '<div class="reg-item">' + escapeHtml(paid[i].name) + ' (' + escapeHtml(paid[i].phone) + ') - ✅ Paid</div>';
+        }
+    }
+    function markPaid() {
+        var phone = document.getElementById('paidPhone').value;
+        if (!phone) {
+            alert('Enter runner phone number');
+            return;
+        }
+        var regs = JSON.parse(localStorage.getItem('runClubRegistrations') || '[]');
+        var found = false;
+        for (var i = 0; i < regs.length; i++) {
+            if (regs[i].phone === phone) {
+                found = true;
+                regs[i].paid = true;
+                regs[i].transactionId = document.getElementById('transactionId').value;
+                regs[i].paidDate = new Date().toISOString();
+            }
+        }
+        if (found) {
+            localStorage.setItem('runClubRegistrations', JSON.stringify(regs));
+            alert('Marked as paid!');
+            document.getElementById('paidPhone').value = '';
+            document.getElementById('transactionId').value = '';
+            loadRegistrations();
+            loadPaidList();
+        } else {
+            alert('Runner not found. Ask them to register first.');
+        }
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+</script>
+
+</body>
+</html>
